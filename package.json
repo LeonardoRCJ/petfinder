@@ -27,7 +27,7 @@
     "multer": "^2.0.0",
     "multer-storage-cloudinary": "^4.0.0"
   },
-  "devDependencies": {
-        "prisma": "^6.8.2"
-  }
+"devDependencies": {
+      "prisma": "^6.8.2"
+}
 }

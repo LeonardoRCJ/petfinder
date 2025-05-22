@@ -14,11 +14,22 @@ exports.register = async (req, res) => {
   try {
     const { name, cpf, phone, email, password, role } = req.body;
 
-    const existingUserEmail = await prisma.user.findUnique({ where: { email } });
-    const existingUserCpf = await prisma.user.findUnique({where: { cpf } })
-    if (existingUserEmail) return res.status(400).json({ message: `Usuário com email: ${email} já existe` });
-
-    if (existingUserCpf) return res.status(400).json({message: `Usuário com cpf: ${cpf} já existe` }) 
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email },
+          { cpf }
+        ]
+      }
+    });
+    if (existingUser) {
+      if (existingUser.email === email) {
+        return res.status(400).json({ message: `Usuário com email ${email} já existe` });
+      }
+      if (existingUser.cpf === cpf) {
+        return res.status(400).json({ message: `Usuário com CPF ${cpf} já existe` });
+      }
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

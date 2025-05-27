@@ -37,13 +37,24 @@ exports.getUserById = async (req, res) => {
 
 
 exports.editUser = async (req, res) => {
-    try {
-        const user = await prisma.user.update({
-            where: {id: parseInt(req.params.id)}
-        });
-        if (!user) return res.status(404).json({message: 'Usuário não encontrado'});
-        res.json(user);
-    } catch (err) {
-        res.status(500).json({message: 'Erro ao buscar usuário', log: err})
+  try {
+    const { name, phone, email } = req.body;
+
+    const user = await prisma.user.update({
+      where: { id: parseInt(req.params.id) },
+      data: {
+        name,
+        phone,
+        email
+      }
+    });
+
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    if (err.code === 'P2025') {  // Prisma "Record not found"
+      return res.status(404).json({ message: 'Usuário não encontrado' });
     }
-}
+    res.status(500).json({ message: 'Erro ao atualizar usuário', log: err });
+  }
+};

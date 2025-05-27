@@ -21,7 +21,7 @@ exports.protect = (req, res, next) => {
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return res.status(403).json({message: 'Acess restricted'})
+            return res.status(403).json({message: 'Access restricted'})
         }
         next();
     }

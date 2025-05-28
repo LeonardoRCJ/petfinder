@@ -10,6 +10,6 @@ router.get('/:id', protect, adoptionsController.getMyAdoptions);
 //ADMIN 
 router.get('/', protect, restrictTo('ADMIN'), adoptionsController.getAllAdoptions)
 router.patch('/:id', protect, restrictTo('ADMIN'), adoptionsController.updateAdoptionsStatus)
-router.delete('/:id', protect, restrictTo('ADMIN'), adoptionsController.deleteAdoption)
+router.delete('/:id', protect, adoptionsController.deleteAdoption)
 
 module.exports = router;

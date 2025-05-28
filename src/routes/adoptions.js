@@ -5,7 +5,7 @@ const { protect, restrictTo } = require('../middlewares/auth');
 
 //USER
 router.post('/', protect, adoptionsController.createAdoptionRequest)
-router.get('/me', protect, adoptionsController.getMyAdoptions);
+router.get('/:id', protect, adoptionsController.getMyAdoptions);
 
 //ADMIN 
 router.get('/', protect, restrictTo('ADMIN'), adoptionsController.getAllAdoptions)

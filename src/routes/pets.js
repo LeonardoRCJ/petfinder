@@ -10,7 +10,8 @@ router.get('/:id', petsController.getPetById);
 
 // Rotas protegidas (admin)
 router.post('/', protect, restrictTo('ADMIN'), upload.single('image'), petsController.createPet);
-router.patch('/:id', protect, restrictTo('ADMIN'), upload.single('image'), petsController.updatePet);
+router.put('/:id', protect, restrictTo('ADMIN'), petsController.updatePet)
+router.patch('/:id', protect, restrictTo('ADMIN'), upload.single('image'), petsController.updatePetImage);
 router.delete('/:id', protect, restrictTo('ADMIN'), petsController.deletePet);
 
 module.exports = router;

@@ -44,8 +44,7 @@ exports.editUser = async (req, res) => {
       where: { id: parseInt(req.params.id) },
       data: {
         name,
-        phone,
-        email
+        phone
       }
     });
 

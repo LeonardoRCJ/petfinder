@@ -53,7 +53,7 @@ model AdoptionRequest {
     formResponse Json
     status       AdoptionStatus @default(PENDING)
     createdAt    DateTime @default(now())
-
+    
     pet     Pet  @relation(fields: [petId], references: [id])
     user    User @relation(fields: [userId], references: [id])
 }

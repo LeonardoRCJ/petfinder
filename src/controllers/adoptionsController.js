@@ -36,7 +36,7 @@ exports.getMyAdoptions = async (req, res) => {
     try {
         const adoptions = await prisma.adoptionRequest.findMany({
             where: {userId: req.user.id},
-            include: {pet: true}
+            include: {pet: true, user: true}
         })
         res.json(adoptions)
     } catch (err) {

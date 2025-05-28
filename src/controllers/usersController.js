@@ -45,7 +45,8 @@ exports.editUser = async (req, res) => {
       data: {
         name,
         phone,
-      },
+        email
+      }
     });
 
     res.json(user);

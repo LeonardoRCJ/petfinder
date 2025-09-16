@@ -1,153 +1,99 @@
-🐾 Petfinder API
-Uma API RESTful completa e robusta para gestão de um sistema de adoção de animais de estimação, construída com Node.js, Express e Prisma.
+# 🐾 Petfinder API
 
-📜 Sobre o Projeto
-A Petfinder API fornece uma plataforma centralizada onde utilizadores podem encontrar animais para adoção e administradores podem gerir todo o ecossistema da aplicação. O sistema conta com autenticação segura, diferentes níveis de permissão, gestão de perfis, catálogo de animais com upload de imagens e um fluxo completo para solicitações de adoção.
+## Visão Geral
 
-✨ Funcionalidades Principais
-🔐 Autenticação e Autorização: Sistema de registo e login com tokens JWT e hashing de senhas. As rotas são protegidas e o acesso é controlado por funções (ADMIN vs. USER).
+Esta é uma API para uma plataforma de adoção de animais, desenvolvida com Node.js e Express. A API permite o gerenciamento completo de animais (pets), utilizadores e pedidos de adoção, utilizando um sistema de autenticação e autorização baseado em tokens JWT para proteger as rotas.
 
-👤 Gestão de Utilizadores:
+## Tecnologias Utilizadas
+* **Node.js**
+* **Express.js:** Para a criação de APIs REST.
+* **Prisma:** Como ORM para o acesso e persistência de dados.
+* **PostgreSQL:** Como banco de dados.
+* **JWT (jsonwebtoken):** Para a geração e validação de tokens de autenticação.
+* **Bcrypt.js:** Para a encriptação de senhas.
+* **Cloudinary e Multer:** Para o upload e armazenamento de imagens.
+* **Dotenv:** Para o gerenciamento de variáveis de ambiente.
 
-Admins podem listar, visualizar e eliminar utilizadores.
+## Como Executar o Projeto
+1.  **Clone o repositório:**
+    ```bash
+    git clone <url-do-repositorio>
+    ```
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
+3.  **Configure o banco de dados e as variáveis de ambiente:**
+    * Crie um arquivo `.env` na raiz do projeto e configure a URL do seu banco de dados PostgreSQL, os segredos do token e as chaves da API da Cloudinary.
+    ```properties
+    # Configuração do Banco de Dados
+    DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
 
-Utilizadores podem editar as suas próprias informações de perfil.
+    # Configuração do Servidor
+    PORT=3000
 
-🐶 Gestão de Pets:
+    # Segredos do JWT
+    JWT_SECRET=seu-segredo-super-secreto
+    JWT_EXPIRES_IN=90d
 
-CRUD completo para os registos dos animais (disponível apenas para admins).
+    # Credenciais da Cloudinary
+    CLOUDINARY_NAME=seu-cloud-name
+    CLOUDINARY_API_KEY=sua-api-key
+    CLOUDINARY_API_SECRET=seu-api-secret
+    ```
 
-Listagem pública para que todos possam ver os animais disponíveis.
+4.  **Execute as migrações do banco de dados:**
+    * Utilize o script `migrate` do `package.json` para criar as tabelas no banco de dados.
+    ```bash
+    npm run migrate
+    ```
 
-🖼️ Upload de Imagens: Integração com a Cloudinary para armazenamento de imagens na nuvem, garantindo performance e escalabilidade.
+5.  **Execute a aplicação:**
+    * Utilize o script `start` para iniciar o servidor:
+    ```bash
+    npm start
+    ```
 
-❤️ Sistema de Adoção:
+## Endpoints da API
 
-Utilizadores autenticados podem submeter pedidos de adoção.
+### Autenticação
+* **`POST /auth/login`**
+    * Realiza o login de um usuário.
+* **`POST /auth/register`**
+    * Registra um novo usuário.
 
-Admins podem gerir os pedidos, alterando o seu estado (PENDING, APPROVED, REJECTED).
+### Pets
+* **`GET /pets`**
+    * Retorna a lista de todos os pratos. Acessível a todos.
+* **`GET /pets/{id}`**
+    * Retorna um prato específico pelo seu ID. Acessível a todos.
+* **`POST /pets`**
+    * Cria um novo prato. Requer autenticação de administrador.
+* **`PUT /pets/{id}`**
+    * Atualiza um prato existente. Requer autenticação de administrador.
+* **`PATCH /pets/{id}`**
+    * Atualiza a imagem de um pet. Requer autenticação de administrador.
+* **`DELETE /pets/{id}`**
+    * Deleta um prato pelo seu ID. Requer autenticação de administrador.
 
-🛠️ Tecnologias Utilizadas
-Este projeto foi construído com as seguintes tecnologias:
+### Adoções
+* **`GET /adoptions`**
+    * Retorna a lista de todas as adoções. Requer autenticação de administrador.
+* **`GET /adoptions/{id}`**
+    * Retorna as adoções de um usuário específico. Requer autenticação.
+* **`POST /adoptions`**
+    * Cria um novo pedido de adoção. Requer autenticação.
+* **`PATCH /adoptions/{id}`**
+    * Atualiza o status de uma adoção. Requer autenticação de administrador.
+* **`DELETE /adoptions/{id}`**
+    * Deleta uma adoção. Requer autenticação.
 
-Categoria	Tecnologia
-Backend	Node.js, Express.js
-Base de Dados	PostgreSQL
-ORM	Prisma
-Autenticação	jsonwebtoken, bcryptjs
-Upload de Ficheiros	Multer, Cloudinary
-Variáveis de Ambiente	dotenv
-
-Exportar para as Planilhas
-🚀 Como Começar
-Siga os passos abaixo para configurar e executar o projeto localmente.
-
-1. Pré-requisitos
-Node.js (v18.18 ou superior)
-
-npm (Node Package Manager)
-
-Uma instância de PostgreSQL a correr
-
-Uma conta na Cloudinary
-
-2. Instalação
-Clone o repositório e instale as dependências:
-
-Bash
-
-# Clone o repositório
-git clone <URL_DO_SEU_REPOSITORIO>
-
-# Navegue para o diretório do projeto
-cd petfinder-api
-
-# Instale as dependências
-npm install
-3. Configuração do Ambiente
-Crie um ficheiro .env na raiz do projeto e adicione as suas credenciais. Pode usar o exemplo abaixo como modelo:
-
-Snippet de código
-
-# URL de conexão do seu banco de dados PostgreSQL
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
-
-# Porta do servidor
-PORT=3000
-
-# Segredos para o JWT
-JWT_SECRET=seu-jwt-secret-super-seguro
-JWT_EXPIRES_IN=90d
-
-# Credenciais da sua conta Cloudinary
-CLOUDINARY_NAME=seu-nome-na-cloudinary
-CLOUDINARY_API_KEY=sua-api-key
-CLOUDINARY_API_SECRET=seu-api-secret
-4. Base de Dados
-Execute as migrações do Prisma para criar as tabelas na sua base de dados:
-
-Bash
-
-npx prisma migrate deploy
-5. Iniciar o Servidor
-Agora, inicie a aplicação:
-
-Bash
-
-npm start
-O servidor estará disponível em http://localhost:3000.
-
-📖 Guia da API (Endpoints)
-<details>
-<summary><strong>🔑 Autenticação (/auth)</strong></summary>
-
-POST /register: Regista um novo utilizador.
-
-POST /login: Autentica um utilizador e retorna um token JWT.
-
-</details>
-
-<details>
-<summary><strong>👤 Utilizadores (/users)</strong></summary>
-
-GET /: Lista todos os utilizadores. (Apenas Admin)
-
-GET /:id: Obtém detalhes de um utilizador. (Autenticado)
-
-PUT /:id: Atualiza um utilizador. (Autenticado)
-
-DELETE /:id: Elimina um utilizador. (Apenas Admin)
-
-</details>
-
-<details>
-<summary><strong>🐾 Pets (/pets)</strong></summary>
-
-GET /: Lista todos os animais. (Público)
-
-GET /:id: Obtém detalhes de um animal. (Público)
-
-POST /: Adiciona um novo animal. (Apenas Admin)
-
-PUT /:id: Atualiza um animal. (Apenas Admin)
-
-PATCH /:id: Atualiza a imagem de um animal. (Apenas Admin)
-
-DELETE /:id: Elimina um animal. (Apenas Admin)
-
-</details>
-
-<details>
-<summary><strong>❤️ Adoções (/adoptions)</strong></summary>
-
-GET /: Lista todos os pedidos de adoção. (Apenas Admin)
-
-GET /:id: Lista os pedidos de um utilizador. (Autenticado)
-
-POST /: Cria um pedido de adoção. (Autenticado)
-
-PATCH /:id: Atualiza o estado de um pedido. (Apenas Admin)
-
-DELETE /:id: Elimina um pedido. (Autenticado)
-
-</details>
+### Usuários
+* **`GET /users`**
+    * Retorna a lista de todos os usuários. Requer autenticação de administrador.
+* **`GET /users/{id}`**
+    * Retorna um usuário específico pelo seu ID. Requer autenticação.
+* **`PUT /users/{id}`**
+    * Atualiza um usuário existente. Requer autenticação.
+* **`DELETE /users/{id}`**
+    * Deleta um usuário pelo seu ID. Requer autenticação de administrador.
